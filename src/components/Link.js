@@ -3,11 +3,15 @@ import React, { Component } from "react";
 class Link extends Component {
   render() {
     return (
-      <div>
-        <div>{this.props.link.slug}</div>
-        <div>{this.props.link.description}</div>
-        <div>{this.props.link.link}</div>
-      </div>
+      <section>
+        <div>
+          {this.props.link.slug}
+          <br />
+          {this.props.link.description}
+          <br />
+          {this.props.link.link}
+        </div>
+      </section>
     );
   }
 }

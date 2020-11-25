@@ -1,12 +1,17 @@
 import React, { Component } from "react";
-
+import Header from "./Header";
 import LinkList from "./LinkList";
+import CreateLink from "./CreateLink";
 
 class App extends Component {
   render() {
     return (
-      <div className="app-container cover">
-        <LinkList />
+      <div className="center w85">
+        <Header />
+        <div className="ph3 pv1 background-gray">
+          <CreateLink />
+          <LinkList />
+        </div>
       </div>
     );
   }
