@@ -1,34 +1,24 @@
-import React, { Component } from "react";
+import React from "react";
 import Header from "./Header";
 import LinkList from "./LinkList";
 import CreateLink from "./CreateLink";
 
-// Typography
-import Typography from "@material-ui/core/Typography";
-import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+// Import the wrapper component, and the the creator function
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
+// Create a new theme using Spartan
 const theme = createMuiTheme({
   typography: {
-    fontFamily: ["Roboto"].join(",")
+    fontFamily: "Roboto, sans-serif"
   }
 });
 
-class App extends Component {
-  render() {
-    return (
-      <ThemeProvider theme={theme}>
-        <Typography>
-          <div className="center w85">
-            <Header />
-            <div className="ph3 pv1 background-gray">
-              <CreateLink />
-              <LinkList />
-            </div>
-          </div>
-        </Typography>
-      </ThemeProvider>
-    );
-  }
+export default function App() {
+  return (
+    <MuiThemeProvider theme={theme}>
+      <Header />
+      <CreateLink />
+      <LinkList />
+    </MuiThemeProvider>
+  );
 }
-
-export default App;

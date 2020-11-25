@@ -5,17 +5,15 @@ import CREATE_LINK from "../graphql/mutations/CreateLink";
 import { Mutation } from "react-apollo";
 
 // Material-ui
-import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
+import { makeStyles } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles({
-  grid: {
-    margin: "9px"
-  },
   textfield: {
-    margin: "3px"
+    margin: "9px"
   },
   button: {
     margin: "3px"
@@ -32,42 +30,38 @@ export default function CreateLink() {
   const classes = useStyles();
 
   return (
-    <div>
+    <Box mt={3}>
       <Grid
-        className={classes.grid}
         container
         direction="column"
         justify="space-between"
         alignItems="center"
       >
-        <label>Short description</label>
         <TextField
           required
-          className={classes.grid}
+          className={classes.textfield}
           id="outlined-required"
-          label="Required"
+          label="Short description"
           variant="outlined"
           value={slug}
           onChange={(e) => setSlug({ slug: e.target.value })}
           type="text"
         />
-        <label>Description</label>
         <TextField
           required
-          className={classes.grid}
+          className={classes.textfield}
           id="outlined-required"
-          label="Required"
+          label="Description"
           variant="outlined"
           value={description}
           onChange={(e) => setDescription({ description: e.target.value })}
           type="text"
         />
-        <label>URL</label>
         <TextField
           required
-          className={classes.grid}
+          className={classes.textfield}
           id="outlined-required"
-          label="Required"
+          label="URL"
           variant="outlined"
           value={link}
           onChange={(e) => setLink({ link: e.target.value })}
@@ -88,6 +82,6 @@ export default function CreateLink() {
           )}
         </Mutation>
       </Grid>
-    </div>
+    </Box>
   );
 }

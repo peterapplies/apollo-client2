@@ -1,14 +1,19 @@
-import React, { useState, useRef, useEffect } from "react";
-import ResponsiveBurger from "./ResponsiveBurger";
-
-// Bootstrap
-import Navbar from "react-bootstrap/Navbar";
+import React from "react";
+import Burger from "./Burger";
 
 // Material-ui
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import Link from "@material-ui/core/Link";
 
 const useStyles = makeStyles({
+  navbar: {
+    position: "fixed"
+  },
   link: {
     color: "#000000"
   }
@@ -16,39 +21,22 @@ const useStyles = makeStyles({
 
 function NavBar() {
   const classes = useStyles();
-  const [navBackground, setNavBackground] = useState(false);
-  const navRef = useRef();
-  navRef.current = navBackground;
-  useEffect(() => {
-    const handleScroll = () => {
-      const show = window.pageYOffset > window.innerHeight * 0.9;
-      if (navRef.current !== show) {
-        setNavBackground(show);
-      }
-    };
-    document.addEventListener("scroll", handleScroll);
-    return () => {
-      document.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   return (
-    <section>
-      <div>
-        <Navbar
-          style={{
-            backgroundColor: navBackground ? "#f0f0f0" : "transparent"
-          }}
-        >
-          <Navbar.Brand>
-            <Link className={classes.link} nderline="none" href="/">
-              Sh.ink
-            </Link>
-          </Navbar.Brand>
-          <ResponsiveBurger />
-        </Navbar>
-      </div>
-    </section>
+    <div>
+      <AppBar position="fixed" width={1}>
+        <Toolbar>
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+          ></IconButton>
+          <Typography variant="subtitle1">Sh.ink</Typography>
+          {/* <Burger /> */}
+        </Toolbar>
+      </AppBar>
+      <Toolbar />
+    </div>
   );
 }
 export default NavBar;

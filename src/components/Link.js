@@ -1,19 +1,16 @@
-import React, { Component } from "react";
+import React from "react";
 
-class Link extends Component {
-  render() {
-    return (
-      <section>
-        <div>
-          {this.props.link.slug}
-          <br />
-          {this.props.link.description}
-          <br />
-          {this.props.link.link}
-        </div>
-      </section>
-    );
-  }
+// @Material-ui
+import Box from "@material-ui/core/Box";
+
+export default function Link(props) {
+  return (
+    <Box>
+      {props.link.slug}
+      <br />
+      {props.link.description}
+      <br />
+      {props.link.link}
+    </Box>
+  );
 }
-
-export default Link;
