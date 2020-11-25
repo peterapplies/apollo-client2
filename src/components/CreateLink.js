@@ -15,8 +15,7 @@ const useStyles = makeStyles({
     margin: "9px"
   },
   textfield: {
-    margin: "3px",
-    color: "black"
+    margin: "3px"
   },
   button: {
     margin: "3px"
