@@ -16,7 +16,8 @@ const useStyles = makeStyles({
     margin: "9px"
   },
   button: {
-    margin: "3px"
+    margin: "3px",
+    width: "100vw"
   },
   container: {
     margin: "1px"
