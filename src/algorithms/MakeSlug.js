@@ -1,4 +1,4 @@
-function makeSlug(length) {
+function MakeSlug(length) {
   let result = "";
   let characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -8,4 +8,4 @@ function makeSlug(length) {
   }
   return result;
 }
-module.exports = makeSlug;
+module.exports = MakeSlug;
