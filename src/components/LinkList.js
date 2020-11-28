@@ -10,10 +10,7 @@ import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
-  root: {
-    flexGrow: 1
-  },
-  header: {
+  grid: {
     minHeight: "60vh",
     backgroundColor: "gray",
     display: "flex",
@@ -21,41 +18,42 @@ const useStyles = makeStyles({
     alignItems: "center",
     paddingLeft: "9px",
     paddingRight: "9px"
+  },
+  query: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
 
 export default function LinkList() {
   const classes = useStyles();
   return (
-    <Query query={LINK_QUERY}>
-      {({ loading, error, data }) => {
-        if (loading) return <div>Fetching</div>;
-        if (error) return <div>Error</div>;
+    <Typography>
+      <Query query={LINK_QUERY} className={classes.query}>
+        {({ loading, error, data }) => {
+          if (loading) return <div>Fetching</div>;
+          if (error) return <div>Error</div>;
 
-        const linksToRender = data.allLinks;
+          const linksToRender = data.allLinks;
 
-        return (
-          <div className={classes.root}>
-            <Typography>
-              <Grid
-                container
-                direction="column"
-                justify="space-between"
-                alignItems="center"
-                className={classes.header}
-              >
-                <div>
-                  {linksToRender.map((link, index) => (
-                    <Box m={3}>
-                      <Link key={index} link={link} />
-                    </Box>
-                  ))}
-                </div>
-              </Grid>
-            </Typography>
-          </div>
-        );
-      }}
-    </Query>
+          return (
+            <Grid
+              container
+              direction="column"
+              justify="space-between"
+              alignItems="center"
+              className={classes.grid}
+            >
+              {linksToRender.map((link, index) => (
+                <Box m={3}>
+                  <Link key={index} link={link} />
+                </Box>
+              ))}
+            </Grid>
+          );
+        }}
+      </Query>
+    </Typography>
   );
 }

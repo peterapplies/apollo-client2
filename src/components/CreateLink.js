@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import MakeSlug from "../algorithms/MakeSlug";
 
 // GraphQL and Apollo
 import CREATE_LINK from "../graphql/mutations/CreateLink";
 import { Mutation } from "react-apollo";
 
-// Material-ui
+// @Material-ui
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
@@ -28,7 +29,12 @@ export default function CreateLink() {
   const [slug, setSlug] = useState("");
   const [description, setDescription] = useState("");
   const [link, setLink] = useState("");
+  let shortLink = null;
   const classes = useStyles();
+
+  function setShortLink() {
+    shortLink = `https://shink.com/${slug}`;
+  }
 
   return (
     <Box mt="30px" mb="30px">
@@ -43,10 +49,13 @@ export default function CreateLink() {
           className={classes.textfield}
           id="outlined-required"
           label="Short description"
-          defaultValue="Hello World"
+          inputProps={{ maxLength: 12 }}
+          defaultValue={MakeSlug(4)}
           variant="outlined"
-          value={slug}
-          onChange={(e) => setSlug({ slug: e.target.value })}
+          onChange={(e) => {
+            setSlug({ slug: e.target.value });
+            setShortLink();
+          }}
           type="text"
         />
         <TextField
@@ -71,7 +80,7 @@ export default function CreateLink() {
         />
         <Mutation
           mutation={CREATE_LINK}
-          variables={{ slug, description, link }}
+          variables={{ slug, description, link, shortLink }}
         >
           {(createLink) => (
             <Button
