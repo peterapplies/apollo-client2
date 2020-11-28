@@ -1,6 +1,6 @@
 import React from "react";
 
-// Material-ui
+// @Material-ui
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -20,7 +20,7 @@ function NavBar() {
   const classes = useStyles();
   return (
     <div>
-      <AppBar position="fixed" width={1}>
+      <AppBar elevation={0} position="fixed" width={1}>
         <Toolbar>
           <IconButton
             edge="start"

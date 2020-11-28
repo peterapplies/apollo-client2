@@ -8,19 +8,19 @@ import { Mutation } from "react-apollo";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   textfield: {
-    margin: "9px"
+    marginTop: "6px",
+    marginBottom: "6px",
+    width: "90vw"
   },
   button: {
-    margin: "3px",
-    width: "100vw"
-  },
-  container: {
-    margin: "1px"
+    marginTop: "6px",
+    marginBottom: "6px",
+    width: "90vw"
   }
 });
 
@@ -31,18 +31,19 @@ export default function CreateLink() {
   const classes = useStyles();
 
   return (
-    <Box mt={3}>
+    <Box mt="30px" mb="30px">
       <Grid
         container
         direction="column"
-        justify="space-between"
         alignItems="center"
+        className={classes.grid}
       >
         <TextField
           required
           className={classes.textfield}
           id="outlined-required"
           label="Short description"
+          defaultValue="Hello World"
           variant="outlined"
           value={slug}
           onChange={(e) => setSlug({ slug: e.target.value })}
@@ -78,7 +79,7 @@ export default function CreateLink() {
               variant="outlined"
               onClick={createLink}
             >
-              Submit
+              Shorten URL
             </Button>
           )}
         </Mutation>

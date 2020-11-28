@@ -1,4 +1,5 @@
 import React from "react";
+import NavBar from "./NavBar";
 import Header from "./Header";
 import LinkList from "./LinkList";
 import CreateLink from "./CreateLink";
@@ -16,6 +17,7 @@ const theme = createMuiTheme({
 export default function App() {
   return (
     <MuiThemeProvider theme={theme}>
+      <NavBar />
       <Header />
       <CreateLink />
       <LinkList />

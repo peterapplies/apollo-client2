@@ -1,13 +1,14 @@
 import React from "react";
+import ListItem from "@material-ui/core/ListItem";
 
 export default function Link(props) {
   return (
-    <li>
+    <ListItem>
       {props.link.slug}
       <br />
       {props.link.description}
       <br />
       {props.link.link}
-    </li>
+    </ListItem>
   );
 }
