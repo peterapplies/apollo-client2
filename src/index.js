@@ -1,21 +1,25 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import ApolloClient from "apollo-boost";
-import { ApolloProvider } from "react-apollo";
+import { render } from "react-dom";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { BrowserRouter } from "react-router-dom";
+import "./styles.css";
 
 import App from "./components/App";
 
 // Pass your prisma endpoint to uri
 const client = new ApolloClient({
-  uri: "https://yeor0.sse.codesandbox.io/"
+  uri: "https://yeor0.sse.codesandbox.io/",
+  cache: new InMemoryCache()
 });
 
-ReactDOM.render(
-  <BrowserRouter>
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
-  </BrowserRouter>,
-  document.getElementById("root")
-);
+function Index() {
+  return (
+    <BrowserRouter>
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+    </BrowserRouter>
+  );
+}
+
+render(<Index />, document.getElementById("root"));
