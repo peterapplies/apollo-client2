@@ -1,98 +1,166 @@
 import React, { useState } from "react";
-import MakeSlug from "../algorithms/MakeSlug";
 
 // GraphQL and Apollo
 import CREATE_LINK from "../graphql/mutations/CreateLink";
-import { Mutation } from "react-apollo";
+import GET_LINKS from "../graphql/queries/GetAllLinks";
+import { useMutation } from "@apollo/client";
 
 // @Material-ui
 import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
+import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+  root: {
+    backgroundColor: "#d3d3d3",
+    paddingTop: "30px",
+    paddingBottom: "30px",
+    display: "flex",
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column",
+      alignItems: "center"
+    },
+    [theme.breakpoints.up("md")]: {
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center"
+    },
+    [theme.breakpoints.up("lg")]: {
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center"
+    }
+  },
   textfield: {
     marginTop: "6px",
     marginBottom: "6px",
-    width: "90vw"
+    [theme.breakpoints.down("sm")]: {
+      width: "78vw"
+    },
+    [theme.breakpoints.up("md")]: {
+      width: "25vw",
+      margin: "9px"
+    },
+    [theme.breakpoints.up("lg")]: {
+      width: "25vw",
+      margin: "9px"
+    }
   },
   button: {
     marginTop: "6px",
     marginBottom: "6px",
-    width: "90vw"
+    height: "51px",
+    background: "gray",
+    "&:hover": {
+      background: "gray"
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: "78vw"
+    },
+    [theme.breakpoints.up("md")]: {
+      width: "15vw"
+    },
+    [theme.breakpoints.up("lg")]: {
+      width: "9vw"
+    }
   }
-});
+}));
 
 export default function CreateLink() {
-  const [slug, setSlug] = useState("");
-  const [description, setDescription] = useState("");
-  const [link, setLink] = useState("");
-  let shortLink = null;
+  const [state, setState] = useState({
+    slug: "",
+    description: "",
+    link: ""
+  });
+
   const classes = useStyles();
 
-  function setShortLink() {
-    shortLink = `https://shink.com/${slug}`;
+  function handleChange(e) {
+    const value = e.target.value;
+    setState({
+      ...state,
+      [e.target.name]: value
+    });
+  }
+
+  const [createLink] = useMutation(CREATE_LINK);
+  function handleSubmit(e) {
+    e.preventDefault();
+    createLink({
+      variables: {
+        slug: state.slug,
+        description: state.description,
+        link: state.link
+      },
+      update(cache, { data: { createLink } }) {
+        cache.modify({
+          fields: {
+            allLinks(existingLinks = []) {
+              const newLinkRef = cache.writeFragment({
+                data: createLink,
+                fragment: gql`
+                  fragment NewLink on Link {
+                    id
+                    slug
+                    description
+                    link
+                  }
+                `
+              });
+              return [...existingLinks, newLinkRef];
+            }
+          }
+        });
+      }
+    });
+    setState({
+      slug: "",
+      description: "",
+      link: ""
+    });
   }
 
   return (
-    <Box mt="30px" mb="30px">
-      <Grid
-        container
-        direction="column"
-        alignItems="center"
-        className={classes.grid}
-      >
+    <form onSubmit={handleSubmit}>
+      <Box className={classes.root}>
         <TextField
-          required
           className={classes.textfield}
-          id="outlined-required"
-          label="Short description"
           inputProps={{ maxLength: 12 }}
-          defaultValue={MakeSlug(4)}
+          id="slug"
+          name="slug"
+          label="Link Alias"
           variant="outlined"
-          onChange={(e) => {
-            setSlug({ slug: e.target.value });
-            setShortLink();
-          }}
           type="text"
+          value={state.slug}
+          onChange={handleChange}
         />
         <TextField
           required
           className={classes.textfield}
-          id="outlined-required"
+          id="description"
+          name="description"
           label="Description"
           variant="outlined"
-          value={description}
-          onChange={(e) => setDescription({ description: e.target.value })}
           type="text"
+          value={state.description}
+          onChange={handleChange}
         />
         <TextField
           required
           className={classes.textfield}
-          id="outlined-required"
+          id="link"
+          name="link"
           label="URL"
           variant="outlined"
-          value={link}
-          onChange={(e) => setLink({ link: e.target.value })}
           type="text"
+          value={state.link}
+          onChange={handleChange}
         />
-        <Mutation
-          mutation={CREATE_LINK}
-          variables={{ slug, description, link, shortLink }}
-        >
-          {(createLink) => (
-            <Button
-              className={classes.button}
-              variant="outlined"
-              onClick={createLink}
-            >
-              Shorten URL
-            </Button>
-          )}
-        </Mutation>
-      </Grid>
-    </Box>
+        <Button variant="outlined" type="submit" className={classes.button}>
+          Shonk your link
+        </Button>
+      </Box>
+    </form>
   );
 }

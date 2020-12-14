@@ -1,13 +1,15 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 
-const LINK_QUERY = gql`
+const GET_LINKS = gql`
   {
     allLinks {
+      id
       slug
       description
       link
+      shortLink
     }
   }
 `;
 
-module.exports = LINK_QUERY;
+module.exports = GET_LINKS;

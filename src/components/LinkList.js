@@ -1,19 +1,22 @@
 import React from "react";
 import Link from "./Link";
-import { Query } from "react-apollo";
-import LINK_QUERY from "../graphql/queries/GetAllLinks";
+import { useQuery } from "@apollo/client";
+import GET_LINKS from "../graphql/queries/GetAllLinks";
 
 // @Material-ui
 import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
-  grid: {
+  root: {
+    margin: "21px 0"
+  },
+  box: {
     minHeight: "60vh",
-    backgroundColor: "gray",
+    backgroundColor: "white",
     display: "flex",
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     paddingLeft: "9px",
@@ -28,32 +31,39 @@ const useStyles = makeStyles({
 
 export default function LinkList() {
   const classes = useStyles();
+  const { loading, error, data } = useQuery(GET_LINKS);
+
+  if (loading) {
+    return (
+      <Typography component={"span"}>
+        <div className={classes.box}>
+          <span className={classes.grid}>Fetching</span>
+        </div>
+      </Typography>
+    );
+  }
+
+  if (error) {
+    return (
+      <Typography component={"span"}>
+        <div className={classes.box}>
+          <span className={classes.grid}>Error! ${error.message}</span>;
+        </div>
+      </Typography>
+    );
+  }
+
+  const linksToRender = data.allLinks;
+
   return (
-    <Typography>
-      <Query query={LINK_QUERY} className={classes.query}>
-        {({ loading, error, data }) => {
-          if (loading) return <div>Fetching</div>;
-          if (error) return <div>Error</div>;
-
-          const linksToRender = data.allLinks;
-
-          return (
-            <Grid
-              container
-              direction="column"
-              justify="space-between"
-              alignItems="center"
-              className={classes.grid}
-            >
-              {linksToRender.map((link, index) => (
-                <Box m={3}>
-                  <Link key={index} link={link} />
-                </Box>
-              ))}
-            </Grid>
-          );
-        }}
-      </Query>
+    <Typography component={"span"}>
+      <div className={classes.root}>
+        <Box className={classes.box}>
+          {linksToRender.map((link, index) => (
+            <Link className={classes.link} key={link.id} link={link} />
+          ))}
+        </Box>
+      </div>
     </Typography>
   );
 }

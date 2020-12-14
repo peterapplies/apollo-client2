@@ -9,12 +9,12 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
   header: {
     minHeight: "60vh",
-    backgroundColor: "gray",
+    backgroundColor: "white",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    paddingLeft: "9px",
-    paddingRight: "9px"
+    paddingLeft: "30px",
+    paddingRight: "30px"
   }
 });
 
@@ -25,8 +25,8 @@ export default function Header() {
       <Grid>
         <Typography variant="h6">
           <div>
-            <b>Sh</b>orten li<b>nk</b> is a link management platform to brand,
-            track, and share short URLs using a custom domain.
+            Shonk is a link management platform to brand, track, and share
+            shortened links using a custom domain.
           </div>
         </Typography>
       </Grid>

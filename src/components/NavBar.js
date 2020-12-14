@@ -28,7 +28,7 @@ function NavBar() {
             color="inherit"
             aria-label="menu"
           ></IconButton>
-          <Typography variant="subtitle1">Sh.ink</Typography>
+          <Typography variant="subtitle1">Shonk</Typography>
         </Toolbar>
       </AppBar>
       <Toolbar />
