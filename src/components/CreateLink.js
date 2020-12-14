@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 // GraphQL and Apollo
 import CREATE_LINK from "../graphql/mutations/CreateLink";
-import GET_LINKS from "../graphql/queries/GetAllLinks";
 import { useMutation } from "@apollo/client";
+import { gql } from "@apollo/client";
 
 // @Material-ui
 import Button from "@material-ui/core/Button";
@@ -84,7 +84,29 @@ export default function CreateLink() {
     });
   }
 
-  const [createLink] = useMutation(CREATE_LINK);
+  const [createLink] = useMutation(CREATE_LINK, {
+    update(cache, { data: { createLink } }) {
+      debugger;
+      cache.modify({
+        fields: {
+          allLinks(existingLinks = []) {
+            const newLinkRef = cache.writeFragment({
+              data: createLink,
+              fragment: gql`
+                fragment NewLink on Link {
+                  id
+                  slug
+                  description
+                  link
+                }
+              `
+            });
+            return [...existingLinks, newLinkRef];
+          }
+        }
+      });
+    }
+  });
   function handleSubmit(e) {
     e.preventDefault();
     createLink({
@@ -92,26 +114,6 @@ export default function CreateLink() {
         slug: state.slug,
         description: state.description,
         link: state.link
-      },
-      update(cache, { data: { createLink } }) {
-        cache.modify({
-          fields: {
-            allLinks(existingLinks = []) {
-              const newLinkRef = cache.writeFragment({
-                data: createLink,
-                fragment: gql`
-                  fragment NewLink on Link {
-                    id
-                    slug
-                    description
-                    link
-                  }
-                `
-              });
-              return [...existingLinks, newLinkRef];
-            }
-          }
-        });
       }
     });
     setState({
