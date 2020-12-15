@@ -160,7 +160,7 @@ export default function CreateLink() {
           onChange={handleChange}
         />
         <Button variant="outlined" type="submit" className={classes.button}>
-          Shonk your link
+          Shonk
         </Button>
       </Box>
     </form>
